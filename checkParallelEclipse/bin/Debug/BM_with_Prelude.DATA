@@ -1,0 +1,461 @@
+
+-- INPEX BROWSE, LTD
+-- Brewster Member 2016B MID Case Model
+-- Based on Petrel Geological Model May 2016
+--
+
+--Krg curve was updated, which was scaled by SWL and SGR
+-- Aquifer Assumption was updated in July 2012.
+
+-- Permeability Cut-off K<0.01 only above FWL
+
+---------BM2016B MID Case Simulation Model R43 - 50L -------------------------
+--BM2016B MID Case Reference Profile Rev-D
+--BDC-1D location was updated (back to the original location)
+--BDC-4-A(01) location was updated (move to alternative location)
+--BDC-4-B(02)ST3 and BDC-4-C(03)ST1 location was updated
+--Ave. availability was changed into 86.02%.
+
+-- ==================================================================================================
+-- RUNSPEC SECTION ==================================================================================
+-- ==================================================================================================
+
+RUNSPEC
+--NOSIM
+TITLE
+BM2016B MID R43 50L
+
+-- Simulation Start Date 
+START
+1 'JAN' 2018 /
+
+-- Units 
+FIELD
+
+-- Model Dimensions 
+DIMENS
+-- NX   NY   NZ
+   270  140  50   /
+
+-- Fault Segments
+FAULTDIM
+1000000 / minimum number of fault segments
+
+-- Phases Present 
+GAS
+WATER
+OIL
+VAPOIL
+DISGAS
+
+-- Enhanced Network Option
+-- NETWORK
+--  Max    Max    Max branches
+-- Nodes Branches to any node
+-- 60     60         /
+
+-- GRAF runtime monitoring
+MONITOR
+
+-- Restart Index File
+-- RSSPEC
+ 
+-- No Initial Index File written (describes arrays in the INIT file)
+NOINSPEC
+
+-- Dimensions of Equilibration Tables
+-- (2 regions to exclude gas from region outside Field)
+EQLDIMS
+-- Maximum number of:
+-- Regions  P vs D Depth Tracer Tracer
+--          Nodes  Nodes Tables Depth 
+--                              Nodes
+      1      100    50     5      2   /
+
+-- Initial Equilibration Algorithm
+EQLOPTS
+'QUIESC' / Enables pressure modifications to achieve initial "quiesence"
+
+-- Regions 
+REGDIMS
+-- Maximum number of:
+--   FIP    Sets of  Reservoir  Flux   Track
+-- Regions  FIP Reg.  Regions  Regions Regions
+     20       2         0        0 /
+
+-- Table Dimensions 
+TABDIMS
+-- ntsfun ntpvt nssfun nppvt ntfip nrpvt nrpvt(E300) ntendp
+     8     1     30    40    20    40      20         1    /
+
+-- Well Numbers 
+WELLDIMS
+-- Maximum number of:
+-- Wells Connections Groups Wells/Group
+90    60          50     10     6* 50 /
+
+-- VFP Table Dimensions
+VFPPDIMS
+-- Maximum number of:
+-- Flow THP WGR CGR ALQ Tables
+20   10  10  10   12    250 /
+
+--  Numerical or analytical aquifer description
+AQUDIMS
+--  NUMERICAL       ANALYTICAL
+--  Max #  Max #    Max #   Max #    #     Max #
+--  Lines  Lines    Aqfr    Aqfr    Aqfr   Grids
+--  Aqfr   of Conn  Tables  Table   in     conn
+--  Data   Data             Rows    Model  Aqfr
+0       0         11      30      11    110000  /
+
+-- Number of actions
+ACTDIMS
+-- Maximu number of actions
+350     350        128         20              /  
+ 
+UDQDIMS
+500    500    1*   500   200   2*  200     /
+
+UDADIMS
+100 100 300 /
+
+UDTDIMS
+7 80 80 4 /
+
+
+TRACERS
+--  O  W  G
+0  0  5  /
+
+  PARALLEL
+ 4 /
+
+-- Sw initialization by End Point Scaling
+ENDSCALE
+ NODIR REVERS 1 1 /
+
+-- Input Format
+-- UNIFIN
+
+-- Output Format
+-- UNIFOUT
+--FMTOUT
+
+-- Reset message stop limit for problems to 1000
+MESSAGES
+2* 100000 10000 10000 10000 2* 100000 10000 /
+
+
+
+-- ==================================================================================================
+-- GRID SECTION =====================================================================================
+-- ==================================================================================================
+
+GRID
+
+-- Output Control 
+GRIDFILE
+-- Grid   Extensible
+-- File   Grid File
+    0        1      /
+
+NOECHO
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_GRID_COORD_50L.GRDECL'  /
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_GRID_ZCORN_50L.GRDECL'  /
+
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_MID_PORO_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_MID_KX_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_MID_KZ_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+
+COPY
+ PERMX PERMY /
+/
+
+-- Include Faults 
+INCLUDE
+'GRID/BM2016B_FAULT_50L.INC'  /
+
+INCLUDE                                -- Generated : Petrel
+'GRID/BM2016B_MID_MULTZ_BASE_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+
+NEWTRAN
+INIT
+
+-- ==================================================================================================
+-- EDIT SECTION =====================================================================================
+-- ==================================================================================================
+
+EDIT
+
+MULTFLT
+'F*'  1.00 /
+/
+
+-- ==================================================================================================
+-- PROPS SECTION ====================================================================================
+-- ==================================================================================================
+ 
+PROPS
+
+-- Include Rock and Water Properties
+INCLUDE
+'PROPS/BM2012_ROCk_WATER.INC'  /
+
+-- PVT Data Set T1 DST2 Revised in Aug 2005 (by TK)
+-- Bg Correction was applied in 2010
+INCLUDE
+'PROPS/BM_2012A_PVT.INC' /
+
+-- Include 8 sets of Relative Permeabiltiy Curves in JUN 2012
+-- (Corey Ng = 2.4, Nw=4.0, No = 1.5(with GPP) 
+INCLUDE
+'PROPS/BM2012_RELPERM.INC' /  
+
+--------------------------------------------------------------------------------
+-- End Point Scaling Parameters (End Points equal to those in saturation table)
+--------------------------------------------------------------------------------
+
+-- Include RMS Initial Water Saturation (SWATINIT) based on Imibition System
+-- Include End Point Saturations (SWL, SWCR, SGU, SGCR, SOGCR, SOWCR)
+
+INCLUDE
+'PROPS/BM2016B_MID_KRG_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_KRO_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SGCR_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SGU_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SOGCR_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SW_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SWCR_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+INCLUDE
+'PROPS/BM2016B_MID_SWL_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+
+EQUALS
+
+SWU  1  1 270  1 140  1 50 /
+SGL  0  1 270  1 140  1 50 /
+KRW  1  1 270  1 140  1 50 /
+/
+ENDBOX
+
+
+COPY
+SOGCR SOWCR /
+/
+
+
+SCALECRS
+ NO /
+
+--------------------------------
+-- Aquifer Model Specifications
+--------------------------------
+
+-- Include Analytic CT Aquifer Model
+INCLUDE
+'PROPS/BM2012A_AQUTAB.INC'  /
+
+--------------------------
+TRACER
+--------------------------
+BG1	GAS /
+BG2	GAS /
+BG3	GAS /
+BG4	GAS /
+BG5	GAS /
+/
+-- ==================================================================================================
+-- REGIONS SECTION ==================================================================================
+-- ==================================================================================================
+
+REGIONS
+
+
+INCLUDE
+'REGION/BM2016B_MID_SATNUM_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+
+INCLUDE
+'REGION/BM2016B_FIPNUM_50L.INC'  /
+
+INCLUDE
+'REGION/BM2016B_MID_FIPPERM_50L_KMULT2016B_KRIG_FINAL_R43.INC'  /
+
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMFBG1_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMFBG2_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMFBG3_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMFBG4_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMFBG5_50L.INC'  /
+
+
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMSBG1_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMSBG2_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMSBG3_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMSBG4_50L.INC'  /
+INCLUDE
+'REGION/TRACERS_50L/BM2012_TNUMSBG5_50L.INC'  /
+-- ==================================================================================================
+-- SOLUTION SECTION =================================================================================
+-- ==================================================================================================
+
+SOLUTION
+
+-- Include Initialisation File, GWC at 4103mLAT
+-- EQUIL Item9 is set to 0 to honour the SWATINIT
+INCLUDE
+'SOLUTION/BM2012A_EQUIL.INC'  /
+
+-- Aquifer Model Connections
+INCLUDE
+'SOLUTION/BM2012A_50L_AQUIFER.INC'  /
+
+-- Tracer
+INCLUDE
+'SOLUTION/BM2012A_TRACER_TVDP.INC'  /
+
+-- Output Fluid In Place
+RPTSOL
+ 'RESTART=1' 'FIP=3' /
+
+-- ==================================================================================================
+-- SUMMARY SECTION ==================================================================================
+-- ==================================================================================================
+
+SUMMARY
+
+ALL
+
+WBP9
+/
+
+WBP
+/
+
+-- ==================================================================================================
+-- SCHEDULE SECTION =================================================================================
+-- ==================================================================================================
+
+
+SCHEDULE
+
+SKIPREST
+-- Simulator Control Parameters
+TUNING
+-- Time Stepping Controls
+-- tsinit tsmaxz tsminz tsfmax tsfmin tsfcnv tfdiff thrupt tmaxwc
+/
+--Time Truncation and Convergence Controls
+-- trgtte trgcnv trgmbe trglcv xxxtte xxxcnv xxxmbe xxxlcv xxxwfl trgfip trgsft
+/
+-- Newton and Linear Iteration Controls
+-- newtmx newtmn litmax litmin mxwsit mxwpit ddplim ddslim trgdpr xxxdpr
+2* 100 /
+
+-- High Throughput Control Parameters
+TUNINGDP
+/
+
+RPTRST
+'BASIC=3' 'FREQ=1' 'FIP'  /
+
+RPTSCHED
+'CPU=2' 'AQUCT' 'FIP=3' /
+
+
+
+--================= Brewster Well 7inch TBG VFP Tables based using Petroleum Experts 2 (PE2) correlation [Aug-2016 by T.S.] ====================
+
+-- Existing VLP Tables for BM Wells — Table 151 - 180
+
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_BDC-1B-01_STB_155.ecl'    / Table 155 - Existing: BDC-1B-01 = BDC-1B-A
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_BDC-1C-02_STB_160.ecl'    / Table 160 - Existing: BDC-1C-02 = BDC-1C-B
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_BDC-1C-01_STB_161.ecl'    / Table 161 - Existing: BDC-1C-01 = BDC-1C-C
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_BDC-1C-06_STB_162.ecl'    / Table 162 - Existing: BDC-1C-06 = BDC-1C-D
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_BDC-4-04ST1_STB_176.ecl'  / Table 176 - Existing: BDC-4-04ST1 = BDC-4-D
+
+-- Generic VLP Tables for BM Wells — Table 201 - 216
+
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-0500_STB_201.ecl'    / Table 201
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-1000_STB_202.ecl'    / Table 202
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-1500_STB_203.ecl'    / Table 203
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-2000_STB_204.ecl'    / Table 204
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-2500_STB_205.ecl'    / Table 205
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-3000_STB_206.ecl'    / Table 206
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-3500_STB_207.ecl'    / Table 207
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_2D-4000_STB_208.ecl'    / Table 208
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-0500_STB_209.ecl'    / Table 209
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-1000_STB_210.ecl'    / Table 210
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-1500_STB_211.ecl'    / Table 211
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-2000_STB_212.ecl'    / Table 212
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-2500_STB_213.ecl'    / Table 213
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-3000_STB_214.ecl'    / Table 214
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-3500_STB_215.ecl'    / Table 215
+--INCLUDE
+--'VFP/TBG_2016B/GENERIC/201607_3D-4000_STB_216.ecl'    / Table 216
+
+-- Existing VLP Tables for Prelude Wells — Table 101 - 108
+
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P1ST1_STB_101.ecl'    / Table 101
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P3_STB_103.ecl'    / Table 103
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P4_STB_104.ecl'    / Table 104
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P5_STB_105.ecl'    / Table 105
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P6_STB_106.ecl'    / Table 106
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P7_STB_107.ecl'    / Table 107
+--INCLUDE
+--'VFP/TBG_2016B/EXISTING/201607_P8_STB_108.ecl'    / Table 108
+
+
+--================ Well Completion & Production Schedule ===============================
+
+--WA50L/WA44L COMP DATA
+INCLUDE
+'SCHEDULE/BM2016B_MID_R43_50L_KMULT2016B_KRIG_1A-E_DN1_WPIMULT.SCH' /
+
+INCLUDE
+'SCHEDULE/WCONPROD.INC' /
+

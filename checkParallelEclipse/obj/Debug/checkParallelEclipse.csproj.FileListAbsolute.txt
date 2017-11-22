@@ -1,0 +1,6 @@
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\bin\Debug\checkParallelEclipse.exe.config
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\bin\Debug\checkParallelEclipse.exe
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\bin\Debug\checkParallelEclipse.pdb
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\obj\Debug\checkParallelEclipse.csprojResolveAssemblyReference.cache
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\obj\Debug\checkParallelEclipse.exe
+c:\users\kumar\documents\visual studio 2015\Projects\checkParallelEclipse\checkParallelEclipse\obj\Debug\checkParallelEclipse.pdb

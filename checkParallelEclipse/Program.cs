@@ -33,6 +33,12 @@ namespace checkParallelEclipse
             {
                 Console.WriteLine("Eclipse is NOT parallel");
             }
+
+            //*********************************** modification check**********************************************
+
+            //*********************************** parallel deve commits ******************************************
+
+
             Console.ReadKey();
         }
     }

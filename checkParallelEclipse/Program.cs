@@ -24,7 +24,7 @@ namespace checkParallelEclipse
                     checkParallel = true;
                 }
             }
-            //return checkParallel;
+            //return variable scheckParallel;
             if (checkParallel)
             {
                 Console.WriteLine("Eclipse is parallel");
